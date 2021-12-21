@@ -1,0 +1,52 @@
+<!DOCTYPE html>  
+<html lang="en" xmlns:th="http://www.springframework.org/schema/data/jaxb">  
+<head>  
+    <title>Work List</title>  
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>  
+    <link type="text/css" rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>  
+</head>  
+<body>  
+<div class="col-3"></div>  
+
+<div class="container my-2"> 
+	<h1>Manage Work</h1>
+	<a th:href="@{/showNewWork}" class="btn btn-primary btn-sm mb-3">Add New</a>  
+	<table border="1" class = "table table-striped table-responsive-md">
+	    <thead>
+	        <tr>
+	            <th>Work Name</th>
+				<th>Start Date</th>
+				<th>End Date</th>
+				<th>Status</th>
+				<th>Action</th>
+	        </tr>
+	    </thead>
+	    <tbody>
+	        <tr th:each="work, iStat : ${workPage.content}"
+	            th:style="${iStat.odd}? 'background-color: #f2f2f2;'"
+	            th:alt-title="${iStat.even}? 'even' : 'odd'">
+	            <td th:text="${work.workName}" />
+	            <td th:text="${#dates.format(work.startDate, 'yyyy-MM-dd HH:mm:ss')}" />
+				<td th:text="${#dates.format(work.endDate, 'yyyy-MM-dd HH:mm:ss')}" />
+				<td th:text="${work.status}" />
+				<td>
+					<a th:href="@{/updateWork(id=${work.id})}" class="btn btn-primary">Edit</a>
+					<a th:href="@{/deleteWork(id=${work.id})}" class="btn btn-danger">Delete</a>
+				</td>
+	        </tr>
+	    </tbody>
+	</table>
+	<div th:if="${workPage.totalPages > 1}">
+        Total Rows: [[${workPage.totalElements}]]<br>
+        <span th:each="i: ${#numbers.sequence(1, workPage.totalPages)}">
+	      <a th:if="${currentPage != i}" th:href="@{'/work?page=' + ${i}}">[[${i}]]</a>
+	      <span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
+        </span>
+        <a th:if="${currentPage < workPage.totalPages}" th:href="@{'/work?page=' + ${currentPage + 1}}">Next</a>
+        <span th:unless="${currentPage < workPage.totalPages}">Next</span>&nbsp;&nbsp;
+        <a th:if="${currentPage < workPage.totalPages}" th:href="@{'/work?page=' + ${workPage.totalPages}}">Last</a>
+        <span th:unless="${currentPage < workPage.totalPages}">Last</span>
+	</div>
+</div>
+</body>
+</html>

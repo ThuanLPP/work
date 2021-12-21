@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Work List</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<link type="text/css" rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+</head>
+<body>
+	<div class="container">
+		<h1>Manage Work</h1>
+		<hr>
+		<h2>New Work</h2>
+
+		<form th:action="@{/editWork}" method="POST" th:object="${workModel}">
+			<input type="hidden" th:field="*{id}" />
+			<span>Work Name</span><input type="text" th:field="*{workName}" class="form-control mb-4 col-4">
+			<span>Start Date</span><input type="datetime" th:field="*{startDate}" class="form-control mb-4 col-4">
+			<span>End Date</span><input type="datetime" th:field="*{endDate}" class="form-control mb-4 col-4">
+			<span>Status</span><input type="text" th:field="*{status}" class="form-control mb-4 col-4">
+			<button type="submit" class="btn btn-info col-2"> Update Work</button>
+		</form>
+		<hr>
+		<a th:href = "@{/work}">Back to list</a>
+	</div>
+</body>
+</html>
