@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,15 +24,20 @@ public class WorkController {
 	private WorkService workService;
 
 	@RequestMapping("/work")
-	public ModelAndView init(@RequestParam Optional<Integer> page) {
+	public ModelAndView init(@RequestParam Optional<Integer> page,
+			@RequestParam(value = "order", defaultValue = "ASC", required = false) Sort.Direction direction,
+			@RequestParam(value = "sort", defaultValue = "id", required = false) String sortProperty) {
 		int currentPage = page.orElse(1);
 		int pageSize = 5;
 
-		Page<WorkEntity> workPage = workService.getWorks(PageRequest.of(currentPage - 1, pageSize));
+		Page<WorkEntity> workPage = workService
+				.getWorks(PageRequest.of(currentPage - 1, pageSize, Sort.by(direction, sortProperty)));
 
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("workPage", workPage);
 		modelAndView.addObject("currentPage", currentPage);
+		modelAndView.addObject("order", direction.toString());
+		modelAndView.addObject("sort", sortProperty);
 
 		// display screen
 		modelAndView.setViewName("index");
