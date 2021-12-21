@@ -50,12 +50,12 @@
 	<div th:if="${workPage.totalPages > 1}">
         Total Rows: [[${workPage.totalElements}]]<br>
         <span th:each="i: ${#numbers.sequence(1, workPage.totalPages)}">
-	      <a th:if="${currentPage != i}" th:href="@{'/work?page=' + ${i}}">[[${i}]]</a>
+	      <a th:if="${currentPage != i}" th:href="@{'/work?page=' + ${i} + '&sort=' + ${sort} + '&order=' + ${order}}">[[${i}]]</a>
 	      <span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
         </span>
-        <a th:if="${currentPage < workPage.totalPages}" th:href="@{'/work?page=' + ${currentPage + 1}}">Next</a>
+        <a th:if="${currentPage < workPage.totalPages}" th:href="@{'/work?page=' + ${currentPage + 1} + '&sort=' + ${sort} + '&order=' + ${order}}">Next</a>
         <span th:unless="${currentPage < workPage.totalPages}">Next</span>&nbsp;&nbsp;
-        <a th:if="${currentPage < workPage.totalPages}" th:href="@{'/work?page=' + ${workPage.totalPages}}">Last</a>
+        <a th:if="${currentPage < workPage.totalPages}" th:href="@{'/work?page=' + ${workPage.totalPages} + '&sort=' + ${sort} + '&order=' + ${order}}">Last</a>
         <span th:unless="${currentPage < workPage.totalPages}">Last</span>
 	</div>
 </div>
